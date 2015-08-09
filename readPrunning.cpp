@@ -45,31 +45,23 @@ int main(){
 	
 	for(int r=0;r<readNum;r++){
 		assignMinMaxImmunityChange(r);
-		//maxcovever = max(maxcovever, reads[r].minCov);
 		reads[r].included = 1; // initially all reads are included
-		}
-	//cout<<maxcovever<<endl;	
+		}	
 	for(int r=0;r<readNum;r++){
-		//cout<<reads[r].minCov<<" * "<<reads[r].maxCov<<endl;
 		if(!reads[r].needchange || reads[r].immune){
-			//cout<<reads[r].minCov<<" "<<reads[r].maxCov<<endl;
-			//cin.get();
 			continue; //either too little coverage, or no need to prune
 			}
 		//we need to prune this read!
 		reads[r].included = 0;
 		overcount++;
 		for(int i=reads[r].start; i<reads[r].end; i++) positions[i]--;
-		//now, what does that mean for the next reads? 
 		//take only the reads that overlap with reads[r]:
 		for(int nr = r+1; (reads[nr].start<=reads[r].end && nr<readNum); nr++){ //all overlapping reads
 			assignMinMaxImmunityChange(nr);
 			}
 		}
-	//cout<<overcount<<endl;
 	for(int i=0;i<readNum;i++){ //now output which reads are used
 		cout<<reads[i].name<<" "<<reads[i].start+1<<" "<<reads[i].end+1<<" "<<reads[i].included<<endl;
 	}
-	//cout<<overcount<<" "<<reads[readNum-1].end<<"\n"<<(100*overcount)/reads[readNum-1].end<<endl;
 	return 0;
 	}
